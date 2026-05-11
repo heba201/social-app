@@ -4,7 +4,7 @@ import { getBookmarks, getPostById } from '../../services/postServices';
 import PostHeader from '../../components/PostCard/PostHeader';
 import PostBody from '../../components/PostCard/PostBody';
 import PostFooter from '../../components/PostCard/PostFooter';
-import PostSkeleton from '../../components/skeletons/postSkeleton';
+import PostSkeleton from '../../components/skeletons/PostSkeleton';
 
 export default function PostDetails() {
   const[bookmarks,setBookmarks] = useState([]);
