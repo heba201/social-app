@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SideBar from '../../components/SideBar/SideBar';
 import FriendReq from '../../components/FriendReq/FriendReq';
 import { getAllPosts,getBookmarks } from '../../services/postServices';
-import PostSkeleton from '../../components/skeletons/postSkeleton';
+import PostSkeleton from '../../components/skeletons/PostSkeleton';
 import Post from '../../components/Post/Post';
 import CreatePost from '../../components/CreatePost/CreatePost';
 
