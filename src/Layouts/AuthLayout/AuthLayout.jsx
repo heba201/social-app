@@ -1,5 +1,5 @@
 import React from 'react'
-import authImg from '../../assets/auth/download.png'
+import authImg from '../../assets/auth/auth_img.png'
 import { Outlet } from 'react-router'
 export default function AuthLayout() {
   return (
