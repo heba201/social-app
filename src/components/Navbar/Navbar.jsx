@@ -6,7 +6,7 @@ import { RiMessageFill } from "react-icons/ri";
 import { FaBell } from "react-icons/fa6";
 import { AuthContext } from '../../context/AuthContext';
 import { UserContext } from '../../context/UserContext';
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink  , useNavigate } from "react-router-dom";
 import { NotificationsContext } from '../../context/NotificationsContext';
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 
@@ -14,10 +14,12 @@ export default function NavbarComponent() {
   const{token,setToken} = useContext(AuthContext);
   const {profileData,profilePhoto}   = useContext(UserContext);
   const {unreadCount,setUnreadCount}   = useContext(NotificationsContext);
+  const navigate = useNavigate();
   function handleLogout(){
     localStorage.removeItem("token");
     setToken(null);
     console.log("logged out");
+     navigate("/login");
   }
     const [open, setOpen] = useState(false);
     const [openMobile, setOpenMobile] = useState(false);

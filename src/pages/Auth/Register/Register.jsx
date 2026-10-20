@@ -11,12 +11,14 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { registerUser } from "../../../services/AuthServices";
 import { toast } from "react-toastify";
-
+import { FaSpinner } from "react-icons/fa";
 export default function Register() {
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [sucessMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
   let {
     register,
     handleSubmit,
@@ -37,12 +39,15 @@ export default function Register() {
 
   async function submit(data) {
     try {
+       setIsLoading(true);
       let response = await registerUser(data);
       toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
       let errorMessage = error.response?.data?.message || error.message;
       toast.error(errorMessage);
+    }finally{
+        setIsLoading(false);
     }
   }
   return (
@@ -91,11 +96,11 @@ export default function Register() {
               <FieldError>{errors.email?.message}</FieldError>
             </TextField>
           </div>
-          <div className="filed-dev pb-3">
+          <div className="filed-dev pb-3 w-full md:w-xl relative">
             <TextField
               aria-label="password"
               isInvalid={errors.password}
-              className="w-full md:w-xl"
+              className="w-full md:w-xl "
             >
               <Input
                 {...register("password")}
@@ -108,12 +113,12 @@ export default function Register() {
             </TextField>
             {showPassword ? (
               <FaEyeSlash
-                className="cursor-pointer"
+                className="cursor-pointer absolute top-[25%] right-3.75"
                 onClick={() => setShowPassword(!showPassword)}
               />
             ) : (
               <FaEye
-                className="cursor-pointer"
+                className="cursor-pointer absolute top-[25%] right-3.75"
                 onClick={() => setShowPassword(!showPassword)}
               />
             )}
@@ -151,97 +156,30 @@ export default function Register() {
               <FieldError>{errors.dateOfBirth?.message}</FieldError>
             </TextField>
 
-            {/* <Controller
-        name="dateOfBirth"
-        control={control} 
-        defaultValue={null}
-        render={({ field }) => (
-            <DatePicker className="w-full md:w-70"   value={field.value}
-            onChange={field.onChange}>
-              <Label>Date</Label>
-              <DateField.Group fullWidth>
-                <DateField.Input>
-                  {(segment) => <DateField.Segment segment={segment} />}
-                </DateField.Input>
-                <DateField.Suffix>
-                  <DatePicker.Trigger>
-                    <DatePicker.TriggerIndicator />
-                  </DatePicker.Trigger>
-                </DateField.Suffix>
-              </DateField.Group>
-              <DatePicker.Popover>
-                <Calendar aria-label="Event date">
-                  <Calendar.Header>
-                    <Calendar.YearPickerTrigger>
-                      <Calendar.YearPickerTriggerHeading />
-                      <Calendar.YearPickerTriggerIndicator />
-                    </Calendar.YearPickerTrigger>
-                    <Calendar.NavButton slot="previous" />
-                    <Calendar.NavButton slot="next" />
-                  </Calendar.Header>
-                  <Calendar.Grid>
-                    <Calendar.GridHeader>
-                      {(day) => (
-                        <Calendar.HeaderCell>{day}</Calendar.HeaderCell>
-                      )}
-                    </Calendar.GridHeader>
-                    <Calendar.GridBody>
-                      {(date) => <Calendar.Cell date={date} />}
-                    </Calendar.GridBody>
-                  </Calendar.Grid>
-                  <Calendar.YearPickerGrid>
-                    <Calendar.YearPickerGridBody>
-                      {({ year }) => <Calendar.YearPickerCell year={year} />}
-                    </Calendar.YearPickerGridBody>
-                  </Calendar.YearPickerGrid>
-                </Calendar>
-              </DatePicker.Popover>
-            </DatePicker>
-   )}
-      /> */}
-
-            <Controller
+           <Controller
               name="gender"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <Select
+                <select
+                  {...field}
                   aria-label="gender"
-                  className="w-full md:w-70"
-                  placeholder="Select a gender"
-                  value={field.value}
-                  selectedKeys={
-                    field.value ? new Set([field.value]) : new Set()
-                  }
-                  onSelectionChange={(keys) => {
-                    const value = Array.from(keys)[0];
-                    field.onChange(value);
-                  }}
+                  className="w-full md:w-70 px-3 py-2 border rounded-[0.75rem] bg-white shadow-sm pb-3 focus:outline-none"
                 >
-                  <Select.Trigger>
-                    <Select.Value />
-                    <Select.Indicator />
-                  </Select.Trigger>
-
-                  <Select.Popover>
-                    <ListBox>
-                      <ListBox.Item key="male" textValue="male">
-                        Male
-                      </ListBox.Item>
-
-                      <ListBox.Item key="female" textValue="female">
-                        Female
-                      </ListBox.Item>
-                    </ListBox>
-                  </Select.Popover>
-                </Select>
+                  <option value="" disabled>
+                    Select a gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
               )}
             />
+            <FieldError>{errors.gender?.message}</FieldError>
           </div>
           <div className="field-div pt-5">
-            <Button color="primary" className="w-full md:w-xl" type="submit">
-             
-              Register
+            <Button color="primary" className="w-full md:w-xl" type="submit" isDisabled={isLoading}>
+                Register
+                {isLoading ? <FaSpinner className="w-3.5 h-3.5" />  :"" }
             </Button>
             <p className="text-center text-lg font-semibold w-full md:w-xl pt-3">
               Already have an account
