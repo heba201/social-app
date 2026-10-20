@@ -160,21 +160,28 @@ export default function Register() {
               name="gender"
               control={control}
               defaultValue=""
-              render={({ field }) => (
-                <select
-                  {...field}
-                  aria-label="gender"
-                  className="w-full md:w-70 px-3 py-2 border rounded-[0.75rem] bg-white shadow-sm pb-3 focus:outline-none"
-                >
-                  <option value="" disabled>
-                    Select a gender
-                  </option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              )}
-            />
-            <FieldError>{errors.gender?.message}</FieldError>
+              render= {({ field }) => (
+    <div className="flex flex-col gap-1 w-full md:w-70">
+      <select
+        {...field}
+        aria-label="gender"
+        className={`px-3 py-2  border rounded-[0.75rem] bg-white shadow-sm pb-3 focus:outline-none transition-colors ${
+          errors.gender ? "border-red-500 focus:border-red-500" : "border-gray-300"
+        }`}
+      >
+        <option value="" disabled>
+          Select a gender
+        </option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+       {errors.gender &&  <span className="px-1 text-xs wrap-break-word text-red-500">
+        {errors.gender?.message}
+      </span>}
+      
+    </div>
+  )}
+            />  
           </div>
           <div className="field-div pt-5">
             <Button color="primary" className="w-full md:w-xl" type="submit" isDisabled={isLoading}>

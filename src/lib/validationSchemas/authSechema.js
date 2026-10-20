@@ -5,7 +5,10 @@ export const registerSchema = z.object({
   email: z.string().nonempty("Email is required").email("Email is invalid"),
   password: z.string().nonempty("Password is required").regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number").min(6, "Password must be at least 6 characters"),
   rePassword: z.string().nonempty("Please confirm your password"),
-  dateOfBirth: z.string().nonempty("Date of Birth is required").refine((date) => {
+  dateOfBirth: z.preprocess(
+  (val) => (val === null || val === undefined ? "" : val),
+  z.string().nonempty("Date of Birth is required")
+).refine((date) => {
     let currentYear = new Date().getFullYear();
     let ageYear = new Date(date).getFullYear();
     let age = currentYear - ageYear;
